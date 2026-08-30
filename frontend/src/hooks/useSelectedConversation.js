@@ -12,7 +12,6 @@ export function getInitials(name) {
     .join("");
 }
 
-
 function mapUserToConversation({ user, messages, authUser, onlineUsers }) {
   const mappedMessages = messages.map((message) => ({
     id: message._id,
