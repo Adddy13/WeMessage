@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+
 import "dotenv/config";
 
 import fs from "fs";
@@ -14,12 +15,14 @@ import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import { app, server } from "./lib/socket.js";
 
-const app = express();
 const PORT = process.env.PORT;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const publicDir = path.join(process.cwd(), "public");
+
+// it's important that you don't parse the webhook event data, it should be in the raw format
 app.use(
   "/api/webhooks/clerk",
   express.raw({ type: "application/json" }),
@@ -31,7 +34,7 @@ app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(clerkMiddleware());
 
 app.get("/health", (req, res) => {
-  res.status(200).json({ message: "Server is healthy" });
+  res.status(200).json({ ok: true });
 });
 
 app.use("/api/auth", authRoutes);
@@ -45,10 +48,9 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectDB();
-  console.log("Server is running on port:", PORT);
-  if (process.env.NODE_ENV === "production") {
-    job.start();
-  }
+  console.log("Server is up and running on PORT:", PORT);
+
+  if (process.env.NODE_ENV === "production") job.start();
 });
