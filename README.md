@@ -72,7 +72,7 @@ ChatApp/
 ### 1. Clone and install dependencies
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Adddy13/WeMessage
 cd ChatApp
 
 cd backend && npm install
