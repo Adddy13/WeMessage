@@ -1,6 +1,6 @@
 # WeMessage
 
-A real-time, iMessage-styled chat application built with React and Express. Sign in, see who's online, and exchange text, image, and video messages instantly over WebSockets.
+A real-time, chat application built with React and Express. Sign in, see who's online, and exchange text, image, and video messages instantly over WebSockets.
 
 ## Features
 
